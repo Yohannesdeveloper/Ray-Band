@@ -1,0 +1,875 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── Users ───────────────────────────────────────────
+model User {
+  id             String    @id @default(cuid())
+  clerkId        String    @unique
+  email          String    @unique
+  firstName      String?
+  lastName       String?
+  phone          String?
+  role           String    @default("customer")
+  avatarUrl      String?
+  department     String?
+  isActive       Boolean   @default(true)
+  lastLoginAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  bookings       Booking[]
+  enrollments    Enrollment[]
+  orders         Order[]
+  testimonials   Testimonial[]
+  contactMessages ContactMessage[]
+  lessonProgress LessonProgress[]
+  auditLogs      AuditLog[]
+  notifications  Notification[]
+  assignedTasks  EventTask[]
+  createdEvents  Event[]
+  createdProposals Proposal[]
+}
+
+// ─── Bookings ────────────────────────────────────────
+model Booking {
+  id               String    @id @default(cuid())
+  userId           String?
+  user             User?     @relation(fields: [userId], references: [id])
+
+  eventType        String
+  eventDate        DateTime
+  startTime        String?
+  endTime          String?
+  location         String
+  venueName        String?
+  guestCount       Int?
+  musicStyles      String    @default("[]")
+  addOns           String    @default("[]")
+  budget           String?
+  additionalRequests String?
+  contactName      String
+  contactEmail     String
+  contactPhone     String
+
+  status           String    @default("pending")
+  estimatedAmount  Float?
+  paymentId        String?
+  payment          Payment?  @relation(fields: [paymentId], references: [id])
+
+  notes            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+  @@index([eventDate])
+}
+
+// ─── Events (Enterprise) ─────────────────────────────
+model Event {
+  id               String    @id @default(cuid())
+  name             String
+  slug             String    @unique
+  category         String    // concert, wedding, corporate, festival, government, university, hotel, club, birthday, cultural, religious, charity, private
+  status           String    @default("draft") // draft, planning, proposal, negotiation, contract_signed, preparation, marketing, production, live_event, post_event, archived
+  priority         String    @default("normal") // low, normal, high, urgent
+
+  clientId         String?
+  organizer        String?
+  venue            String?
+  venueAddress     String?
+  venueGpsLat      Float?
+  venueGpsLng      Float?
+  capacity         Int?
+  budget           Float     @default(0)
+  estimatedCost    Float     @default(0)
+  revenueProjection Float    @default(0)
+  actualRevenue    Float     @default(0)
+  ticketPrice      Float?
+  ticketType       String?
+
+  eventDate        DateTime?
+  eventEndDate     DateTime?
+  startTime        String?
+  endTime          String?
+  rehearsalDate    DateTime?
+  rehearsalTime    String?
+
+  description      String?
+  transportation   String?
+  accommodation    String?
+  equipmentChecklist String?   // JSON
+  technicalRider   String?
+  hospitalityRider String?
+  stageLayout      String?
+  riskAssessment   String?
+  emergencyContacts String?   // JSON
+  notes            String?
+
+  contactName      String?
+  contactEmail     String?
+  contactPhone     String?
+
+  assignedTeam     String?   // JSON array of user IDs
+  tags             String?   // JSON array
+
+  creatorId        String?
+  creator          User?     @relation(fields: [creatorId], references: [id])
+
+  tasks            EventTask[]
+  expenses         EventExpense[]
+  eventMedia       EventMedia[]
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+  @@index([category])
+  @@index([eventDate])
+}
+
+// ─── Event Tasks ─────────────────────────────────────
+model EventTask {
+  id               String    @id @default(cuid())
+  eventId          String
+  event            Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  title            String
+  description      String?
+  stage            String    @default("planning")
+  status           String    @default("pending") // pending, in_progress, completed, blocked
+  priority         String    @default("normal")
+  dueDate          DateTime?
+  assignedToId     String?
+  assignedTo       User?     @relation(fields: [assignedToId], references: [id])
+  assignedByName   String?
+  notes            String?
+  attachments      String?   // JSON array
+  completedAt      DateTime?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([eventId, status])
+}
+
+// ─── Event Expenses ──────────────────────────────────
+model EventExpense {
+  id               String    @id @default(cuid())
+  eventId          String
+  event            Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  category         String    // venue, equipment, transport, accommodation, catering, marketing, personnel, other
+  description      String
+  amount           Float
+  vendor           String?
+  receiptUrl       String?
+  approvedBy       String?
+  status           String    @default("pending") // pending, approved, paid, rejected
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([eventId])
+}
+
+// ─── Event Media ─────────────────────────────────────
+model EventMedia {
+  id               String    @id @default(cuid())
+  eventId          String
+  event            Event     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  type             String    @default("image") // image, video, document
+  url              String
+  title            String?
+  description      String?
+  uploadedBy       String?
+
+  createdAt        DateTime  @default(now())
+
+  @@index([eventId])
+}
+
+// ─── Sponsors ────────────────────────────────────────
+model Sponsor {
+  id               String    @id @default(cuid())
+  companyName      String
+  slug             String    @unique
+  industry         String?
+  website          String?
+  logoUrl          String?
+  email            String?
+  phone            String?
+  address          String?
+  city             String?
+  country          String    @default("Ethiopia")
+  taxId            String?
+  socialMedia      String?   // JSON: { facebook, instagram, twitter, linkedin }
+
+  contactPersonName  String?
+  contactPersonEmail String?
+  contactPersonPhone String?
+  contactPersonPosition String?
+
+  ceoName          String?
+  marketingDirector String?
+  brandManager     String?
+  prManager        String?
+  sponsorshipManager String?
+  financeOfficer   String?
+
+  status           String    @default("prospect") // prospect, initial_contact, discovery_meeting, proposal_sent, negotiation, approved, rejected, active, renewed, closed
+  pipelineStage    String    @default("prospect")
+  totalValue       Float     @default(0)
+  currency         String    @default("ETB")
+  notes            String?
+
+  tags             String?   // JSON array
+  contacts         SponsorContact[]
+  sponsorships     Sponsorship[]
+  communications   Communication[]
+  documents        PartnerDocument[]
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+  @@index([industry])
+}
+
+// ─── Sponsor Contacts ────────────────────────────────
+model SponsorContact {
+  id               String    @id @default(cuid())
+  sponsorId        String
+  sponsor          Sponsor   @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+
+  name             String
+  position         String?
+  email            String?
+  phone            String?
+  linkedin         String?
+  isPrimary        Boolean   @default(false)
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+
+  @@index([sponsorId])
+}
+
+// ─── Sponsorships ────────────────────────────────────
+model Sponsorship {
+  id               String    @id @default(cuid())
+  sponsorId        String
+  sponsor          Sponsor   @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+
+  name             String
+  packageType      String    // bronze, silver, gold, platinum, diamond, title, custom
+  amount           Float
+  currency         String    @default("ETB")
+  status           String    @default("proposed") // proposed, approved, active, completed, cancelled
+  startDate        DateTime?
+  endDate          DateTime?
+  benefits         String?   // JSON
+  brandingOpportunities String? // JSON
+  marketingExposure String?  // JSON
+  vipBenefits      String?
+  digitalPromotion String?
+  stageBranding    String?
+  mediaCoverage    String?
+
+  eventId          String?
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([sponsorId, status])
+}
+
+// ─── Partnership Organizations ───────────────────────
+model Partnership {
+  id               String    @id @default(cuid())
+  organizationName String
+  slug             String    @unique
+  category         String    // government, ngo, embassy, university, hotel, resort, corporate, media, tv_station, radio, production, wedding_planner, event_organizer, youth, international, church, community
+  status           String    @default("prospect") // prospect, contacted, negotiating, active, inactive, expired
+  website          String?
+  logoUrl          String?
+  email            String?
+  phone            String?
+  address          String?
+  city             String?
+  country          String    @default("Ethiopia")
+
+  primaryContactName  String?
+  primaryContactEmail String?
+  primaryContactPhone String?
+  primaryContactPosition String?
+
+  department       String?
+  partnershipType  String?   // sponsorship, venue, media, technology, training, funding
+  description      String?
+
+  totalValue       Float     @default(0)
+  currency         String    @default("ETB")
+  notes            String?
+
+  tags             String?   // JSON array
+  contacts         PartnershipContact[]
+  agreements       PartnerDocument[]
+  communications   Communication[]
+  fundingOpps      FundingOpportunity[]
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+  @@index([category])
+}
+
+// ─── Partnership Contacts ────────────────────────────
+model PartnershipContact {
+  id               String    @id @default(cuid())
+  partnershipId    String
+  partnership      Partnership @relation(fields: [partnershipId], references: [id], onDelete: Cascade)
+
+  name             String
+  department       String?
+  position         String?
+  email            String?
+  phone            String?
+  isPrimary        Boolean   @default(false)
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+
+  @@index([partnershipId])
+}
+
+// ─── Partner Documents (MOU, Contracts, Agreements) ──
+model PartnerDocument {
+  id               String    @id @default(cuid())
+  sponsorId        String?
+  sponsor          Sponsor?  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+  partnershipId    String?
+  partnership      Partnership? @relation(fields: [partnershipId], references: [id], onDelete: Cascade)
+
+  title            String
+  type             String    // mou, contract, agreement, proposal, report, other
+  fileUrl          String?
+  fileName         String?
+  fileSize         Int?
+  status           String    @default("draft") // draft, pending_review, approved, signed, expired
+  effectiveDate    DateTime?
+  expirationDate   DateTime?
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([sponsorId])
+  @@index([partnershipId])
+}
+
+// ─── Legal Documents ─────────────────────────────────
+model LegalDocument {
+  id               String    @id @default(cuid())
+  title            String
+  category         String    // business_registration, tax_finance, entertainment, hr_employment, sponsorship_partnership
+  subcategory      String    // business_license, trade_license, tin_certificate, vat_registration, performance_license, copyright, trademark, event_permit, employment_contract, nda, etc.
+  description      String?
+  fileUrl          String?
+  fileName         String?
+  fileSize         Int?
+
+  issueDate        DateTime?
+  expirationDate   DateTime?
+  issuingAuthority String?
+  documentNumber   String?
+
+  status           String    @default("active") // active, expired, expiring_soon, pending_renewal, archived
+  tags             String?   // JSON array
+  notes            String?
+  version          Int       @default(1)
+
+  approvalStatus   String    @default("approved") // draft, pending_review, approved, rejected
+  approvedBy       String?
+
+  accessLogs       String?   // JSON array of { userId, action, timestamp }
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([category, status])
+  @@index([expirationDate])
+}
+
+// ─── Proposals ───────────────────────────────────────
+model Proposal {
+  id               String    @id @default(cuid())
+  title            String
+  type             String    // company_profile, capability_statement, sponsorship, partnership, government, ngo, corporate, festival, wedding, event, grant, investment, funding, custom
+  status           String    @default("draft") // draft, review, sent, accepted, rejected, expired
+
+  recipientName    String?
+  recipientEmail   String?
+  recipientOrg     String?
+
+  subject          String?
+  executiveSummary String?
+  content          String?   // Full proposal content (markdown)
+  amount           Float?
+  currency         String    @default("ETB")
+
+  eventId          String?
+  sponsorId        String?
+  partnershipId    String?
+
+  validUntil       DateTime?
+  sentAt           DateTime?
+  responseAt       DateTime?
+
+  authorId         String?
+  author           User?     @relation(fields: [authorId], references: [id])
+
+  attachments      String?   // JSON array
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([type, status])
+}
+
+// ─── Media Assets ────────────────────────────────────
+model MediaAsset {
+  id               String    @id @default(cuid())
+  title            String
+  type             String    // image, video, document, audio, logo, press_kit, brand_guide
+  category         String    // brand, portfolio, promotional, performance, press, other
+  description      String?
+  fileUrl          String
+  fileName         String?
+  fileSize         Int?
+  mimeType         String?
+  thumbnailUrl     String?
+  tags             String?   // JSON array
+  featured         Boolean   @default(false)
+  downloadCount    Int       @default(0)
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([type, category])
+  @@index([featured])
+}
+
+// ─── Communications (shared for sponsors & partnerships)
+model Communication {
+  id               String    @id @default(cuid())
+  type             String    // email, phone, meeting, note, follow_up
+  direction        String    @default("outbound") // inbound, outbound
+  subject          String?
+  content          String
+  contactName      String?
+  contactEmail     String?
+
+  sponsorId        String?
+  sponsor          Sponsor?  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+  partnershipId    String?
+  partnership      Partnership? @relation(fields: [partnershipId], references: [id], onDelete: Cascade)
+
+  followUpDate     DateTime?
+  completed        Boolean   @default(false)
+
+  createdAt        DateTime  @default(now())
+
+  @@index([sponsorId])
+  @@index([partnershipId])
+}
+
+// ─── Funding Opportunities ───────────────────────────
+model FundingOpportunity {
+  id               String    @id @default(cuid())
+  partnershipId    String?
+  partnership      Partnership? @relation(fields: [partnershipId], references: [id], onDelete: Cascade)
+
+  title            String
+  source           String?
+  amount           Float?
+  currency         String    @default("ETB")
+  deadline         DateTime?
+  status           String    @default("identified") // identified, applied, approved, rejected, received
+  description      String?
+  requirements     String?
+  notes            String?
+
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+}
+
+// ─── Courses ─────────────────────────────────────────
+model Course {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  description    String
+  shortDescription String?
+  instructor     String
+  instructorBio  String?
+  instructorAvatar String?
+  category       String
+  level          String    @default("beginner")
+  price          Float     @default(0)
+  currency       String    @default("ETB")
+  thumbnailUrl   String?
+  trailerUrl     String?
+  durationHours  Float?
+  lessonCount    Int?
+  rating         Float     @default(0)
+  reviewCount    Int       @default(0)
+  enrollmentCount Int      @default(0)
+  featured       Boolean   @default(false)
+  published      Boolean   @default(false)
+
+  lessons        Lesson[]
+  enrollments    Enrollment[]
+  reviews        CourseReview[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([category])
+  @@index([featured])
+  @@index([published])
+}
+
+// ─── Lessons ─────────────────────────────────────────
+model Lesson {
+  id             String    @id @default(cuid())
+  courseId        String
+  course         Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  title          String
+  description    String?
+  videoUrl       String?
+  durationMinutes Int?
+  order          Int
+  isFree         Boolean   @default(false)
+  content        String?
+
+  progress       LessonProgress[]
+  createdAt      DateTime  @default(now())
+
+  @@index([courseId, order])
+}
+
+// ─── Lesson Progress ─────────────────────────────────
+model LessonProgress {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id])
+  lessonId       String
+  lesson         Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  completed      Boolean   @default(false)
+  watchTimeSeconds Int      @default(0)
+  lastPosition   Float     @default(0)
+  completedAt    DateTime?
+
+  @@unique([userId, lessonId])
+}
+
+// ─── Enrollments ─────────────────────────────────────
+model Enrollment {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id])
+  courseId        String
+  course         Course    @relation(fields: [courseId], references: [id])
+
+  progress       Float     @default(0)
+  enrolledAt     DateTime  @default(now())
+  completedAt    DateTime?
+  paymentId      String?
+  payment        Payment?  @relation(fields: [paymentId], references: [id])
+
+  @@unique([userId, courseId])
+}
+
+// ─── Course Reviews ──────────────────────────────────
+model CourseReview {
+  id             String    @id @default(cuid())
+  courseId        String
+  course         Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId         String
+  rating         Int
+  comment        String?
+  createdAt      DateTime  @default(now())
+
+  @@unique([courseId, userId])
+}
+
+// ─── Products (Shop) ────────────────────────────────
+model Product {
+  id             String    @id @default(cuid())
+  name           String
+  slug           String    @unique
+  description    String
+  shortDescription String?
+  category       String
+  price          Float
+  currency       String    @default("ETB")
+  imageUrl       String?
+  images         String    @default("[]")
+  stock          Int       @default(0)
+  featured       Boolean   @default(false)
+  published      Boolean   @default(true)
+
+  orderItems     OrderItem[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([category])
+  @@index([featured])
+}
+
+// ─── Orders ──────────────────────────────────────────
+model Order {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id])
+
+  total          Float
+  currency       String    @default("ETB")
+  status         String    @default("pending")
+  shippingAddress String?
+  contactEmail   String
+  contactPhone   String?
+
+  items          OrderItem[]
+  payment        Payment?  @relation(fields: [paymentId], references: [id])
+  paymentId      String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([status])
+}
+
+// ─── Order Items ─────────────────────────────────────
+model OrderItem {
+  id             String    @id @default(cuid())
+  orderId        String
+  order          Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId      String
+  product        Product   @relation(fields: [productId], references: [id])
+
+  quantity       Int       @default(1)
+  unitPrice      Float
+  totalPrice     Float
+}
+
+// ─── Payments ────────────────────────────────────────
+model Payment {
+  id             String    @id @default(cuid())
+  txRef          String    @unique
+  userId         String?
+  amount         Float
+  currency       String    @default("ETB")
+  method         String?
+  status         String    @default("pending")
+
+  chapaResponse  String?
+  verifiedAt     DateTime?
+
+  bookings       Booking[]
+  enrollments    Enrollment[]
+  orders         Order[]
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([txRef])
+  @@index([status])
+}
+
+// ─── Blog Posts ──────────────────────────────────────
+model Post {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  excerpt        String?
+  content        String
+  coverImage     String?
+  author         String    @default("Ray Band Team")
+  category       String
+  tags           String    @default("[]")
+  published      Boolean   @default(false)
+  featured       Boolean   @default(false)
+  viewCount      Int       @default(0)
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([published])
+  @@index([category])
+}
+
+// ─── Testimonials ────────────────────────────────────
+model Testimonial {
+  id             String    @id @default(cuid())
+  userId         String?
+  user           User?     @relation(fields: [userId], references: [id])
+
+  name           String
+  role           String?
+  company        String?
+  avatarUrl      String?
+  rating         Int
+  content        String
+  featured       Boolean   @default(false)
+  approved       Boolean   @default(false)
+
+  createdAt      DateTime  @default(now())
+  @@index([featured])
+}
+
+// ─── Gallery ─────────────────────────────────────────
+model GalleryItem {
+  id             String    @id @default(cuid())
+  title          String?
+  description    String?
+  imageUrl       String
+  category       String    @default("general")
+  type           String    @default("image")
+  videoUrl       String?
+  featured       Boolean   @default(false)
+  order          Int       @default(0)
+
+  createdAt      DateTime  @default(now())
+  @@index([category])
+  @@index([featured])
+}
+
+// ─── Contact Messages ────────────────────────────────
+model ContactMessage {
+  id             String    @id @default(cuid())
+  userId         String?
+  user           User?     @relation(fields: [userId], references: [id])
+
+  name           String
+  email          String
+  phone          String?
+  subject        String?
+  message        String
+  read           Boolean   @default(false)
+  replied        Boolean   @default(false)
+
+  createdAt      DateTime  @default(now())
+  @@index([read])
+}
+
+// ─── Newsletter Subscribers ──────────────────────────
+model NewsletterSubscriber {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  name           String?
+  active         Boolean   @default(true)
+  createdAt      DateTime  @default(now())
+}
+
+// ─── Audit Logs ──────────────────────────────────────
+model AuditLog {
+  id             String    @id @default(cuid())
+  userId         String?
+  user           User?     @relation(fields: [userId], references: [id])
+
+  action         String    // create, update, delete, login, logout, export, upload, approve
+  entity         String    // event, sponsor, partnership, proposal, legal_document, etc.
+  entityId       String?
+  details        String?   // JSON: { field, oldValue, newValue }
+  ipAddress      String?
+  userAgent      String?
+
+  createdAt      DateTime  @default(now())
+
+  @@index([userId, action])
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
+
+// ─── Notifications ───────────────────────────────────
+model Notification {
+  id             String    @id @default(cuid())
+  userId         String?
+  user           User?     @relation(fields: [userId], references: [id])
+
+  title          String
+  message        String
+  type           String    @default("info") // info, warning, success, error, reminder
+  category       String    @default("general") // system, event, sponsor, legal, task, payment
+  entity         String?
+  entityId       String?
+  read           Boolean   @default(false)
+  actionUrl      String?
+
+  createdAt      DateTime  @default(now())
+
+  @@index([userId, read])
+  @@index([category])
+}
+
+// ─── Staff / Team Members ────────────────────────────
+model StaffMember {
+  id             String    @id @default(cuid())
+  name           String
+  role           String    // artist, sound_engineer, photographer, videographer, event_manager, band_manager, marketing, finance, legal, hr, admin
+  email          String?
+  phone          String?
+  avatarUrl      String?
+  department     String?
+  hourlyRate     Float?
+  isFreelancer   Boolean   @default(false)
+  isActive       Boolean   @default(true)
+  skills         String?   // JSON array
+  bio            String?
+  contractType   String?   // full_time, part_time, freelance, contract
+  hireDate       DateTime?
+
+  notes          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([role])
+  @@index([isActive])
+}
+
+// ─── Financial Transactions ──────────────────────────
+model FinancialTransaction {
+  id             String    @id @default(cuid())
+  type           String    // income, expense
+  category       String    // event_revenue, sponsorship, course_enrollment, merchandise, grant, venue, equipment, transport, marketing, salary, rent, utilities, other
+  description    String
+  amount         Float
+  currency       String    @default("ETB")
+  reference      String?   // invoice number, receipt number
+  paymentMethod  String?   // cash, bank_transfer, mobile_money, card
+  eventId        String?
+  sponsorId      String?
+  receiptUrl     String?
+  notes          String?
+  transactionDate DateTime @default(now())
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([type, category])
+  @@index([transactionDate])
+}

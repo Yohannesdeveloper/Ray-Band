@@ -7,6 +7,7 @@ const companies = [
   { name: "FANA Kelemat", logo: "/Companies/fana-removebg-preview.png" },
   { name: "FANA Holiday Program", logo: "/Companies/fana-removebg-preview.png" },
   { name: "Ray Band Entertainment", logo: "/LOGO RAY  BAND.jpg" },
+  { name: "EBS", logo: "/Companies/ebs logo.jpeg" },
 ];
 
 export function TrustedCompanies() {

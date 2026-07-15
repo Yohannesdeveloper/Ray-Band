@@ -12,12 +12,12 @@ import { cn } from "@/lib/utils";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/courses", label: "Courses" },
   { href: "/band", label: "Band" },
   { href: "/gallery", label: "Gallery" },
+  { href: "/blog", label: "Blog" },
   { href: "/music", label: "Music" },
   { href: "/services", label: "Studio" },
-  { href: "/blog", label: "Blog" },
+  { href: "/courses", label: "Courses" },
   { href: "/contact", label: "Contact" },
 ];
 

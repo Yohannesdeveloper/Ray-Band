@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+const ADMIN_EMAIL = "yohannesfk123@gmail.com";
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.gmail.com",
   port: parseInt(process.env.SMTP_PORT || "587"),
   secure: false,
   auth: {
-    user: process.env.SMTP_USER,
+    user: process.env.SMTP_USER || ADMIN_EMAIL,
     pass: process.env.SMTP_PASS,
   },
 });
@@ -101,15 +103,15 @@ export async function POST(req: NextRequest) {
     })));
 
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || process.env.SMTP_USER,
-      to: process.env.SMTP_USER,
+      from: process.env.SMTP_FROM || `Ray Band Entertainment <${ADMIN_EMAIL}>`,
+      to: ADMIN_EMAIL,
       subject: `[Studio Request] ${projectTitle} - ${fullName}`,
       html: adminHtml,
       attachments: emailAttachments,
     });
 
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      from: process.env.SMTP_FROM || `Ray Band Entertainment <${ADMIN_EMAIL}>`,
       to: email,
       subject: `Studio Request Confirmation - ${projectTitle}`,
       html: clientHtml,

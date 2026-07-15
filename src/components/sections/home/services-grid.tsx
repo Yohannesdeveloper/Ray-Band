@@ -6,29 +6,25 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Card } from "@/components/ui/card";
 import { FadeUp, StaggerChildren, StaggerItem } from "@/components/ui/animations";
 import {
-  Mic2,
-  Guitar,
-  SlidersHorizontal,
   Music,
   Radio,
-  Film,
-  Headphones,
-  BookOpen,
-  Mic,
+  Mic2,
+  Volume2,
+  Sun,
+  Camera,
   Video,
+  Users,
 } from "lucide-react";
 
 const services = [
-  { icon: Mic2, title: "Vocal Recording", description: "Professional vocal recording sessions", href: "/services" },
-  { icon: Guitar, title: "Instrument Recording", description: "Multi-track instrument & band recording", href: "/services" },
-  { icon: SlidersHorizontal, title: "Mixing & Mastering", description: "Professional audio mixing & mastering", href: "/services" },
-  { icon: Music, title: "Music Production", description: "Beat making & full song production", href: "/services" },
-  { icon: Radio, title: "Jingles", description: "Radio, TV & business audio branding", href: "/services" },
-  { icon: Film, title: "Film & Documentary", description: "Cinematic scoring & soundtracks", href: "/services" },
-  { icon: Headphones, title: "Podcast Studio", description: "Podcast recording & editing", href: "/services" },
-  { icon: BookOpen, title: "Audiobook Recording", description: "Professional narration & mastering", href: "/services" },
-  { icon: Mic, title: "Voice-over Production", description: "Commercials, TV, radio & more", href: "/services" },
-  { icon: Video, title: "Content Creation", description: "YouTube & TikTok studio space", href: "/services" },
+  { icon: Music, title: "Live Band", description: "Professional live band for any event", href: "/book" },
+  { icon: Radio, title: "DJ Service", description: "Expert DJ to keep the party going", href: "/book" },
+  { icon: Mic2, title: "MC/Host", description: "Professional MC to host your event", href: "/book" },
+  { icon: Volume2, title: "Sound System", description: "High-quality sound system rental", href: "/book" },
+  { icon: Sun, title: "Lighting", description: "Stage & event lighting design", href: "/book" },
+  { icon: Camera, title: "Photography", description: "Professional event photography", href: "/book" },
+  { icon: Video, title: "Videography", description: "Event videography & highlights", href: "/book" },
+  { icon: Users, title: "Event Planning", description: "Full event planning & coordination", href: "/book" },
 ];
 
 export function ServicesGrid() {
@@ -37,10 +33,10 @@ export function ServicesGrid() {
       <Container>
         <FadeUp>
           <SectionHeading
-            badge="Our Studio"
+            badge="Our Services"
             title="Premium"
-            highlighted="Recording Studio"
-            description="World-class recording, production, and content creation services with state-of-the-art equipment."
+            highlighted="Entertainment"
+            description="World-class live band, DJ, sound, lighting, and event services for any occasion."
           />
         </FadeUp>
 

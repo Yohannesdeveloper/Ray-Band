@@ -8,12 +8,12 @@ import { Button } from "@/components/ui/button";
 import { FadeUp, StaggerChildren, StaggerItem } from "@/components/ui/animations";
 
 const images = [
-  { type: "image", aspect: "col-span-2 row-span-2" },
-  { type: "video", aspect: "col-span-1 row-span-1" },
-  { type: "image", aspect: "col-span-1 row-span-1" },
-  { type: "image", aspect: "col-span-1 row-span-2" },
-  { type: "image", aspect: "col-span-1 row-span-1" },
-  { type: "video", aspect: "col-span-2 row-span-1" },
+  { type: "image", src: "/Bands/Cloth 1 (1).jpg", alt: "Band Cloth 1", aspect: "col-span-2 row-span-2" },
+  { type: "image", src: "/Bands/Cloth 2.jpg", alt: "Band Cloth 2", aspect: "col-span-1 row-span-1" },
+  { type: "image", src: null, alt: "", aspect: "col-span-1 row-span-1" },
+  { type: "image", src: null, alt: "", aspect: "col-span-1 row-span-2" },
+  { type: "image", src: null, alt: "", aspect: "col-span-1 row-span-1" },
+  { type: "image", src: null, alt: "", aspect: "col-span-2 row-span-1" },
 ];
 
 export function GalleryPreview() {
@@ -45,7 +45,11 @@ export function GalleryPreview() {
               key={i}
               className={`${item.aspect} rounded-xl bg-surface border border-border overflow-hidden group cursor-pointer relative`}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-charcoal to-surface-lighter" />
+              {item.src ? (
+                <img src={item.src} alt={item.alt} className="absolute inset-0 w-full h-full object-cover" />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-charcoal to-surface-lighter" />
+              )}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gold/5 flex items-center justify-center">
                 {item.type === "video" ? (
                   <div className="w-12 h-12 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center">

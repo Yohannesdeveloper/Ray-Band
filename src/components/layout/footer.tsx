@@ -13,12 +13,12 @@ import { Input } from "@/components/ui/input";
 
 const footerLinks = {
   entertainment: [
-    { label: "Wedding Entertainment", href: "/services#wedding" },
-    { label: "Corporate Events", href: "/services#corporate" },
-    { label: "Private Parties", href: "/services#parties" },
-    { label: "Hotel Performances", href: "/services#hotels" },
-    { label: "Concert Production", href: "/services#concerts" },
-    { label: "Custom Packages", href: "/book" },
+    { label: "Vocal Recording", href: "/services" },
+    { label: "Instrument Recording", href: "/services" },
+    { label: "Mixing & Mastering", href: "/services" },
+    { label: "Music Production", href: "/services" },
+    { label: "Podcast Recording", href: "/services" },
+    { label: "Book a Session", href: "/book" },
   ],
   academy: [
     { label: "Guitar Courses", href: "/courses?category=guitar" },
@@ -174,7 +174,7 @@ export function Footer() {
             <div key={category}>
               <h4 className="text-sm font-semibold text-warm-white uppercase tracking-wider mb-4">
                 {category === "entertainment"
-                  ? "Entertainment"
+                  ? "Studio"
                   : category === "academy"
                   ? "Academy"
                   : category === "company"

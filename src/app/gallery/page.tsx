@@ -7,31 +7,7 @@ import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
 import { Play, X, ChevronLeft, ChevronRight } from "lucide-react";
 
-const videos = [
-  { src: "/Gallery/031fqon8uq.mp4", category: "Concerts" },
-  { src: "/Gallery/oyo5gpa49o.mp4", category: "Concerts" },
-  { src: "/Gallery/005u2w3b22.mp4", category: "Events" },
-  { src: "/Gallery/g2k6x4dxqk.mp4", category: "Behind the Scenes" },
-  { src: "/Gallery/rnqxrw0nob.mp4", category: "Concerts" },
-  { src: "/Gallery/aqy6q0dicm.mp4", category: "Events" },
-  { src: "/Gallery/oc4hv8xqqo.mp4", category: "Behind the Scenes" },
-  { src: "/Gallery/g0xd8b458i.mp4", category: "Concerts" },
-  { src: "/Gallery/qomuk61f94.mp4", category: "Events" },
-  { src: "/Gallery/k20f7ldlzi.mp4", category: "Concerts" },
-  { src: "/Gallery/edmfte24ty.mp4", category: "Concerts" },
-  { src: "/Gallery/dix2wx88py.mp4", category: "Concerts" },
-  { src: "/Gallery/s01yoei1hd.mp4", category: "Events" },
-  { src: "/Gallery/rxmbvopjpl.mp4", category: "Concerts" },
-  { src: "/Gallery/us8zazyc19.mp4", category: "Behind the Scenes" },
-  { src: "/Gallery/7r7oi6x5au.mp4", category: "Concerts" },
-  { src: "/Gallery/7m946slpqh.mp4", category: "Concerts" },
-  { src: "/Gallery/2pzam2gu01.mp4", category: "Behind the Scenes" },
-  { src: "/Gallery/6hmw18m0hd.mp4", category: "Concerts" },
-  { src: "/Gallery/0f3p1cs7ai.mp4", category: "Events" },
-  { src: "/Gallery/7yuqub21pq.mp4", category: "Concerts" },
-  { src: "/Gallery/92xv8vpgql.mp4", category: "Concerts" },
-  { src: "/Gallery/97qi4mdd7w.mp4", category: "Events" },
-];
+const videos: { src: string; category: string }[] = [];
 
 const tabs = ["All", "Concerts", "Events", "Behind the Scenes"];
 

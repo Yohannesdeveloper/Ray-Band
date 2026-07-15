@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Hero } from "@/components/sections/home/hero";
 import { TrustBar } from "@/components/sections/home/trust-bar";
+import { TrustedCompanies } from "@/components/sections/home/trusted-companies";
 import { ServicesGrid } from "@/components/sections/home/services-grid";
 import { FeaturedVideo } from "@/components/sections/home/featured-video";
 import { AboutPreview } from "@/components/sections/home/about-preview";
@@ -20,6 +21,7 @@ export default function Home() {
       <main>
         <Hero />
         <TrustBar />
+        <TrustedCompanies />
         <ServicesGrid />
         <FeaturedVideo />
         <AboutPreview />

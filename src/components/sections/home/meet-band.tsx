@@ -10,12 +10,12 @@ import { Badge } from "@/components/ui/badge";
 import { FadeUp, StaggerChildren, StaggerItem } from "@/components/ui/animations";
 
 const musicians = [
-  { name: "David Mehari", role: "Lead Vocals & Guitar", instrument: "Guitar", image: null },
-  { name: "Sarah Tesfaye", role: "Vocals & Keys", instrument: "Piano", image: null },
-  { name: "Mikael Desta", role: "Saxophone", instrument: "Saxophone", image: null },
-  { name: "Hana Bekele", role: "Violin", instrument: "Violin", image: null },
-  { name: "Yonatan Alem", role: "Drums", instrument: "Drums", image: null },
-  { name: "Ruth Girma", role: "Bass Guitar", instrument: "Bass", image: null },
+  { name: "David Mehari", role: "Lead Vocals & Guitar", instrument: "Guitar", image: "/Bands/Guitarist.jpg" },
+  { name: "Sarah Tesfaye", role: "Vocals & Keys", instrument: "Piano", image: "/Bands/Piano.jpg" },
+  { name: "Mikael Desta", role: "Saxophone", instrument: "Saxophone", image: "/Bands/saxphonist.jpg" },
+  { name: "Hana Bekele", role: "Violin", instrument: "Violin", image: "/Bands/masinko.jpg" },
+  { name: "Yonatan Alem", role: "Drums", instrument: "Drums", image: "/Bands/photo_4_2026-07-15_09-36-54.jpg" },
+  { name: "Ruth Girma", role: "Bass Guitar", instrument: "Bass", image: "/Bands/photo_5_2026-07-15_09-36-54.jpg" },
 ];
 
 export function MeetBand() {
@@ -46,17 +46,19 @@ export function MeetBand() {
               <StaggerItem key={musician.name}>
                 <Link href={`/band/${musician.name.toLowerCase().replace(/\s+/g, "-")}`}>
                   <Card variant="hover" padding="none" className="group overflow-hidden">
-                    {/* Photo Placeholder */}
                     <div className="aspect-[3/4] bg-charcoal relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal to-surface-lighter" />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center">
-                          <span className="text-lg font-bold text-gold/50">
-                            {musician.name.split(" ").map(n => n[0]).join("")}
-                          </span>
+                      {musician.image ? (
+                        <img src={musician.image} alt={musician.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-gold/10 flex items-center justify-center">
+                            <span className="text-lg font-bold text-gold/50">
+                              {musician.name.split(" ").map(n => n[0]).join("")}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                      {/* Hover Overlay */}
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent" />
                       <div className="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <ExternalLink className="w-6 h-6 text-gold" />
                       </div>

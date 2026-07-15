@@ -229,10 +229,10 @@ export default function BookPage() {
                       <p className="text-xs text-warm-white/40 mb-3">Pricing is based on the duration of the performance.</p>
                       <div className="grid grid-cols-2 gap-3">
                         {[
-                          { label: "1 Hour", value: "1", price: "$200/hr" },
-                          { label: "2 Hours", value: "2", price: "$180/hr" },
-                          { label: "3 Hours", value: "3", price: "$160/hr" },
-                          { label: "4+ Hours", value: "4", price: "$150/hr" },
+                          { label: "1 Hour", value: "1", price: "25,000 ETB/hr" },
+                          { label: "2 Hours", value: "2", price: "22,000 ETB/hr" },
+                          { label: "3 Hours", value: "3", price: "20,000 ETB/hr" },
+                          { label: "4+ Hours", value: "4", price: "18,000 ETB/hr" },
                         ].map((option) => (
                           <button
                             key={option.value}
@@ -389,12 +389,12 @@ export default function BookPage() {
                   </p>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { label: "Under $500", value: "under-500" },
-                      { label: "$500 - $1,000", value: "500-1000" },
-                      { label: "$1,000 - $2,500", value: "1000-2500" },
-                      { label: "$2,500 - $5,000", value: "2500-5000" },
-                      { label: "$5,000 - $10,000", value: "5000-10000" },
-                      { label: "$10,000+", value: "10000+" },
+                      { label: "Under 50,000 ETB", value: "under-500" },
+                      { label: "50,000 - 100,000 ETB", value: "500-1000" },
+                      { label: "100,000 - 250,000 ETB", value: "1000-2500" },
+                      { label: "250,000 - 500,000 ETB", value: "2500-5000" },
+                      { label: "500,000 - 1,000,000 ETB", value: "5000-10000" },
+                      { label: "1,000,000+ ETB", value: "10000+" },
                     ].map((budget) => (
                       <button
                         key={budget.value}

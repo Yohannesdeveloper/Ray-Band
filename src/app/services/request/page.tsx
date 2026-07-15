@@ -270,7 +270,7 @@ function StudioRequestContent() {
                       <Input
                         value={data.budget}
                         onChange={(e) => update("budget", e.target.value)}
-                        placeholder="e.g. $500"
+                        placeholder="e.g. 50,000 ETB"
                       />
                     </div>
                   </div>

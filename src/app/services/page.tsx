@@ -24,7 +24,7 @@ const studioServices = [
       "High-quality microphones and audio equipment",
       "Session booking with selectable duration (1, 2, 4, or 8 hours)",
     ],
-    pricing: "From $50/hr",
+    pricing: "From 7,000 ETB/hr",
   },
   {
     icon: Guitar,
@@ -36,7 +36,7 @@ const studioServices = [
       "Studio engineer included during recording",
       "Full range of instruments supported",
     ],
-    pricing: "From $60/hr",
+    pricing: "From 8,500 ETB/hr",
   },
   {
     icon: SlidersHorizontal,
@@ -48,7 +48,7 @@ const studioServices = [
       "Revision request system",
       "Delivery in WAV, MP3, and other required formats",
     ],
-    pricing: "From $100/track",
+    pricing: "From 15,000 ETB/track",
   },
   {
     icon: Music,
@@ -99,7 +99,7 @@ const studioServices = [
       "Intro/outro music",
       "Publish-ready audio exports",
     ],
-    pricing: "From $40/hr",
+    pricing: "From 5,500 ETB/hr",
   },
   {
     icon: BookOpen,
@@ -111,7 +111,7 @@ const studioServices = [
       "Noise removal",
       "Mastering for Audible and other audiobook platforms",
     ],
-    pricing: "From $30/hr",
+    pricing: "From 4,500 ETB/hr",
   },
   {
     icon: Mic,
@@ -124,7 +124,7 @@ const studioServices = [
       "Script upload feature",
       "Multiple language support",
     ],
-    pricing: "From $50/spot",
+    pricing: "From 7,000 ETB/spot",
   },
   {
     icon: Video,
@@ -137,7 +137,7 @@ const studioServices = [
       "Short-form video editing",
       "Thumbnail design and social media optimization",
     ],
-    pricing: "From $80/session",
+    pricing: "From 12,000 ETB/session",
   },
 ];
 

@@ -147,6 +147,14 @@ html {
   animation: marquee 20s linear infinite;
 }
 
+@keyframes marquee-right-to-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee-right-to-left {
+  animation: marquee-right-to-left 30s linear infinite;
+}
+
 /* Custom focus ring */
 *:focus-visible {
   outline: 2px solid #D4A853;

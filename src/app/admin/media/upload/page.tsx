@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  ArrowLeft, Loader2, Upload, Save,
+  ArrowLeft, Loader2, Upload, Save, FileImage, X,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,27 +29,99 @@ const categoryOptions = [
   { value: "other", label: "Other" },
 ];
 
+function formatFileSize(bytes: number) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1048576).toFixed(1)} MB`;
+}
+
 export default function UploadMediaPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
 
   const [title, setTitle] = useState("");
   const [type, setType] = useState("image");
   const [category, setCategory] = useState("brand");
   const [description, setDescription] = useState("");
-  const [fileUrl, setFileUrl] = useState("");
-  const [fileName, setFileName] = useState("");
-  const [fileSize, setFileSize] = useState("");
-  const [mimeType, setMimeType] = useState("");
-  const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [tags, setTags] = useState("");
   const [featured, setFeatured] = useState(false);
 
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState("");
+  const [uploadedInfo, setUploadedInfo] = useState<{
+    fileName: string;
+    fileSize: number;
+    mimeType: string;
+  } | null>(null);
+
+  const handleFileSelect = (file: File) => {
+    if (file.size > 50 * 1024 * 1024) {
+      setError("File too large (max 50MB)");
+      return;
+    }
+    setSelectedFile(file);
+    setFileUrl("");
+    setUploadedInfo(null);
+    setError("");
+    if (!title) {
+      setTitle(file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " "));
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileSelect(file);
+  };
+
+  const uploadFile = async (): Promise<string | null> => {
+    if (!selectedFile) return fileUrl || null;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      formData.append("folder", "media");
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Upload failed");
+      }
+
+      const data = await res.json();
+      setFileUrl(data.url);
+      setUploadedInfo({
+        fileName: data.fileName,
+        fileSize: data.fileSize,
+        mimeType: data.mimeType,
+      });
+      return data.url;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed");
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !fileUrl) {
-      setError("Title and file URL are required");
+    if (!title) {
+      setError("Title is required");
+      return;
+    }
+    if (!selectedFile && !fileUrl) {
+      setError("Please select a file to upload");
       return;
     }
 
@@ -57,6 +129,15 @@ export default function UploadMediaPage() {
     setError("");
 
     try {
+      let url = fileUrl;
+      if (selectedFile && !fileUrl) {
+        url = (await uploadFile()) || "";
+        if (!url) {
+          setLoading(false);
+          return;
+        }
+      }
+
       const res = await fetch("/api/media", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,16 +146,12 @@ export default function UploadMediaPage() {
           type,
           category,
           description: description || null,
-          fileUrl,
-          fileName: fileName || null,
-          fileSize: fileSize ? Number(fileSize) : null,
-          mimeType: mimeType || null,
-          thumbnailUrl: thumbnailUrl || null,
+          fileUrl: url,
+          fileName: uploadedInfo?.fileName || selectedFile?.name || null,
+          fileSize: uploadedInfo?.fileSize || selectedFile?.size || null,
+          mimeType: uploadedInfo?.mimeType || selectedFile?.type || null,
           tags: tags
-            ? tags
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean)
+            ? tags.split(",").map((t) => t.trim()).filter(Boolean)
             : null,
           featured,
         }),
@@ -82,7 +159,7 @@ export default function UploadMediaPage() {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Failed to upload asset");
+        throw new Error(data.error || "Failed to save asset");
       }
 
       router.push("/admin/media");
@@ -127,7 +204,7 @@ export default function UploadMediaPage() {
           <div className="space-y-4">
             <Input
               label="Title"
-              placeholder="e.g. Ray Entertainment and Promotion Logo 2024"
+              placeholder="e.g. Ray Entertainment Logo 2024"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
@@ -199,47 +276,75 @@ export default function UploadMediaPage() {
 
         <Card variant="glass" className="p-6 mb-6">
           <h2 className="text-lg font-semibold text-warm-white mb-4 flex items-center gap-2">
-            <Upload className="w-5 h-5 text-gold" />
-            File Details
+            <FileImage className="w-5 h-5 text-gold" />
+            File Upload
           </h2>
-          <div className="space-y-4">
-            <Input
-              label="File URL"
-              placeholder="https://..."
-              value={fileUrl}
-              onChange={(e) => setFileUrl(e.target.value)}
-              required
-            />
 
-            <Input
-              label="Thumbnail URL"
-              placeholder="https://... (optional preview image)"
-              value={thumbnailUrl}
-              onChange={(e) => setThumbnailUrl(e.target.value)}
-            />
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Input
-                label="File Name"
-                placeholder="logo.png"
-                value={fileName}
-                onChange={(e) => setFileName(e.target.value)}
-              />
-              <Input
-                label="File Size (bytes)"
-                type="number"
-                placeholder="1024000"
-                value={fileSize}
-                onChange={(e) => setFileSize(e.target.value)}
-              />
-              <Input
-                label="MIME Type"
-                placeholder="image/png"
-                value={mimeType}
-                onChange={(e) => setMimeType(e.target.value)}
-              />
+          {selectedFile ? (
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-surface-light border border-border">
+              <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0">
+                <FileImage className="w-6 h-6 text-gold" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-warm-white truncate">
+                  {selectedFile.name}
+                </p>
+                <p className="text-xs text-warm-white/40 mt-0.5">
+                  {formatFileSize(selectedFile.size)} &middot; {selectedFile.type}
+                </p>
+                {uploadedInfo && (
+                  <p className="text-xs text-green-400 mt-0.5">Uploaded</p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedFile(null);
+                  setFileUrl("");
+                  setUploadedInfo(null);
+                }}
+                className="p-1.5 rounded-lg hover:bg-white/5 text-warm-white/40 hover:text-warm-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
-          </div>
+          ) : (
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOver(true);
+              }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={`border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-all ${
+                dragOver
+                  ? "border-gold bg-gold/5"
+                  : "border-border hover:border-gold/30 hover:bg-surface-light"
+              }`}
+            >
+              <Upload className="w-10 h-10 text-warm-white/20 mx-auto mb-3" />
+              <p className="text-sm text-warm-white/60">
+                Drag & drop a file here, or{" "}
+                <span className="text-gold font-medium">browse</span>
+              </p>
+              <p className="text-xs text-warm-white/30 mt-2">
+                Images, videos, documents up to 50MB
+              </p>
+            </div>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*,video/*,.pdf,.doc,.docx"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) handleFileSelect(file);
+              e.target.value = "";
+            }}
+          />
         </Card>
 
         <Card variant="glass" className="p-6 mb-6">
@@ -272,13 +377,13 @@ export default function UploadMediaPage() {
               Cancel
             </Button>
           </Link>
-          <Button type="submit" disabled={loading}>
-            {loading ? (
+          <Button type="submit" disabled={loading || uploading}>
+            {loading || uploading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
             ) : (
               <Save className="w-4 h-4" />
             )}
-            Upload Asset
+            {uploading ? "Uploading..." : "Upload Asset"}
           </Button>
         </div>
       </form>

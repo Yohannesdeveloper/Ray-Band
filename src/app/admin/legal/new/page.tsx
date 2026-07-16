@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  ArrowLeft, Loader2, FileText, Calendar, Save,
+  ArrowLeft, Loader2, FileText, Calendar, Save, Upload, X, File,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -74,6 +74,7 @@ const approvalOptions = [
 
 export default function NewLegalDocumentPage() {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -82,6 +83,9 @@ export default function NewLegalDocumentPage() {
   const [subcategory, setSubcategory] = useState("");
   const [description, setDescription] = useState("");
   const [fileUrl, setFileUrl] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadedFileName, setUploadedFileName] = useState("");
+  const [uploadedFileSize, setUploadedFileSize] = useState(0);
   const [issueDate, setIssueDate] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
   const [issuingAuthority, setIssuingAuthority] = useState("");
@@ -104,6 +108,17 @@ export default function NewLegalDocumentPage() {
     setError("");
 
     try {
+      let url = fileUrl;
+      if (selectedFile && !fileUrl) {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+        formData.append("folder", "legal");
+        const uploadRes = await fetch("/api/upload", { method: "POST", body: formData });
+        if (!uploadRes.ok) throw new Error("File upload failed");
+        const uploadData = await uploadRes.json();
+        url = uploadData.url;
+      }
+
       const res = await fetch("/api/legal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -112,17 +127,16 @@ export default function NewLegalDocumentPage() {
           category,
           subcategory,
           description: description || null,
-          fileUrl: fileUrl || null,
+          fileUrl: url || null,
+          fileName: uploadedFileName || selectedFile?.name || null,
+          fileSize: uploadedFileSize || selectedFile?.size || null,
           issueDate: issueDate || null,
           expirationDate: expirationDate || null,
           issuingAuthority: issuingAuthority || null,
           documentNumber: documentNumber || null,
           status,
           tags: tags
-            ? tags
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean)
+            ? tags.split(",").map((t) => t.trim()).filter(Boolean)
             : null,
           notes: notes || null,
           approvalStatus,
@@ -243,11 +257,55 @@ export default function NewLegalDocumentPage() {
               />
             </div>
 
-            <Input
-              label="File URL"
-              placeholder="https://..."
-              value={fileUrl}
-              onChange={(e) => setFileUrl(e.target.value)}
+            {selectedFile ? (
+              <div className="flex items-center gap-4 p-4 rounded-xl bg-surface-light border border-border">
+                <div className="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center flex-shrink-0">
+                  <File className="w-6 h-6 text-gold" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-warm-white truncate">
+                    {selectedFile.name}
+                  </p>
+                  <p className="text-xs text-warm-white/40 mt-0.5">
+                    {(selectedFile.size / 1024).toFixed(1)} KB &middot; {selectedFile.type}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { setSelectedFile(null); setFileUrl(""); }}
+                  className="p-1.5 rounded-lg hover:bg-white/5 text-warm-white/40 hover:text-warm-white"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed rounded-xl p-8 text-center cursor-pointer border-border hover:border-gold/30 hover:bg-surface-light transition-all"
+              >
+                <Upload className="w-8 h-8 text-warm-white/20 mx-auto mb-2" />
+                <p className="text-sm text-warm-white/60">
+                  Drag & drop or <span className="text-gold font-medium">browse</span> to upload a file
+                </p>
+                <p className="text-xs text-warm-white/30 mt-1">
+                  PDF, DOC, DOCX, images up to 50MB
+                </p>
+              </div>
+            )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf,.doc,.docx,image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  setSelectedFile(file);
+                  setUploadedFileName(file.name);
+                  setUploadedFileSize(file.size);
+                }
+                e.target.value = "";
+              }}
             />
           </div>
         </Card>

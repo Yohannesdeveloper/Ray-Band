@@ -14,6 +14,8 @@ import {
   Play,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 const iconMap: Record<string, React.ElementType> = {
   guitar: Guitar,
   piano: Piano,

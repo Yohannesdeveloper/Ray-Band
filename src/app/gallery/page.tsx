@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Container } from "@/components/ui/container";
 import { Badge } from "@/components/ui/badge";
-import { Play } from "lucide-react";
+import { Play, X } from "lucide-react";
 
 const videos = [
   { id: "GsvWWqfYU4M", title: "Ray Entertainment and Promotion Performance", category: "Concerts" },
@@ -30,6 +30,26 @@ const tabs = ["All", "Concerts", "Events", "Behind the Scenes"];
 
 export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState("All");
+  const [activeVideo, setActiveVideo] = useState<{ id: string; title: string } | null>(null);
+
+  const close = useCallback(() => setActiveVideo(null), []);
+
+  useEffect(() => {
+    if (activeVideo) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [activeVideo]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [close]);
 
   const filtered = activeTab === "All" ? videos : videos.filter((v) => v.category === activeTab);
 
@@ -71,12 +91,10 @@ export default function GalleryPage() {
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {filtered.map((video, i) => (
-                <a
+                <button
                   key={video.id}
-                  href={`https://www.youtube.com/watch?v=${video.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`rounded-xl bg-surface border border-border overflow-hidden group cursor-pointer relative ${
+                  onClick={() => setActiveVideo({ id: video.id, title: video.title })}
+                  className={`rounded-xl bg-surface border border-border overflow-hidden group cursor-pointer relative text-left ${
                     i % 7 === 0 ? "md:col-span-2 md:row-span-2" : ""
                   } aspect-square`}
                 >
@@ -98,7 +116,7 @@ export default function GalleryPage() {
                       {video.category}
                     </span>
                   </div>
-                </a>
+                </button>
               ))}
             </div>
           </Container>
@@ -106,6 +124,37 @@ export default function GalleryPage() {
       </main>
 
       <Footer />
+
+      {activeVideo && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={close}
+        >
+          <div
+            className="relative w-full max-w-4xl bg-surface rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-6 pt-4 pb-2">
+              <h3 className="text-warm-white font-semibold truncate pr-4">{activeVideo.title}</h3>
+              <button
+                onClick={close}
+                className="p-1.5 rounded-full hover:bg-charcoal-light transition-colors"
+              >
+                <X className="w-5 h-5 text-warm-white/70" />
+              </button>
+            </div>
+            <div className="aspect-video w-full">
+              <iframe
+                src={`https://www.youtube.com/embed/${activeVideo.id}?autoplay=1&rel=0`}
+                title={activeVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

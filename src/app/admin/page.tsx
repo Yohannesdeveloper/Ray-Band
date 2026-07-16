@@ -35,115 +35,135 @@ export default async function AdminDashboardPage() {
   const startOfMonth = new Date(currentYear, currentMonth, 1);
   const endOfMonth = new Date(currentYear, currentMonth + 1, 0, 23, 59, 59);
   const thirtyDaysLater = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
-  const startOfYear = new Date(currentYear, 0, 1);
-  const endOfYear = new Date(currentYear, 11, 31, 23, 59, 59);
 
-  const [
-    totalRevenue,
-    monthlyRevenue,
-    totalEvents,
-    activeSponsors,
-    pendingBookings,
-    upcomingEvents,
-    partnershipPipeline,
-    outstandingPayments,
-    activeProposals,
-    expiringDocs,
-    activeTeamMembers,
-    uniqueClients,
-    monthlyRevenueData,
-    eventCategories,
-    sponsorsByStage,
-    recentEvents,
-    recentAuditLogs,
-  ] = await Promise.all([
-    db.financialTransaction.aggregate({
-      where: { type: "income" },
-      _sum: { amount: true },
-    }),
-    db.financialTransaction.aggregate({
-      where: {
-        type: "income",
-        transactionDate: { gte: startOfMonth, lte: endOfMonth },
-      },
-      _sum: { amount: true },
-    }),
-    db.event.count(),
-    db.sponsor.count({ where: { status: "active" } }),
-    db.booking.count({ where: { status: "pending" } }),
-    db.event.count({
-      where: {
-        eventDate: { gte: now, lte: thirtyDaysLater },
-        status: { notIn: ["archived", "post_event"] },
-      },
-    }),
-    db.partnership.count({
-      where: { status: { notIn: ["inactive", "expired"] } },
-    }),
-    db.financialTransaction.aggregate({
-      where: { type: "expense", notes: { contains: "pending" } },
-      _sum: { amount: true },
-    }),
-    db.proposal.count({
-      where: { status: { in: ["draft", "sent"] } },
-    }),
-    db.legalDocument.count({
-      where: {
-        expirationDate: { gte: now, lte: thirtyDaysLater },
-        status: { notIn: ["expired", "archived"] },
-      },
-    }),
-    db.staffMember.count({ where: { isActive: true } }),
-    db.booking.findMany({
-      select: { contactEmail: true },
-      distinct: ["contactEmail"],
-    }),
-    Promise.all(
-      Array.from({ length: 12 }, (_, i) => {
-        const monthStart = new Date(currentYear, i, 1);
-        const monthEnd = new Date(currentYear, i + 1, 0, 23, 59, 59);
-        return db.financialTransaction.aggregate({
-          where: {
-            type: "income",
-            transactionDate: { gte: monthStart, lte: monthEnd },
-          },
-          _sum: { amount: true },
-        });
-      })
-    ),
-    db.event.groupBy({
-      by: ["category"],
-      _count: { id: true },
-      orderBy: { _count: { id: "desc" } },
-    }),
-    db.sponsor.groupBy({
-      by: ["status"],
-      _count: { id: true },
-    }),
-    db.event.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 5,
-      select: {
-        id: true,
-        name: true,
-        category: true,
-        eventDate: true,
-        status: true,
-        budget: true,
-      },
-    }),
-    db.auditLog.findMany({
-      orderBy: { createdAt: "desc" },
-      take: 8,
-      select: {
-        id: true,
-        action: true,
-        entity: true,
-        createdAt: true,
-        details: true,
-      },
-    }),
-  ]);
+  let totalRevenue = { _sum: { amount: null as number | null } };
+  let monthlyRevenue = { _sum: { amount: null as number | null } };
+  let totalEvents = 0;
+  let activeSponsors = 0;
+  let pendingBookings = 0;
+  let upcomingEvents = 0;
+  let partnershipPipeline = 0;
+  let outstandingPayments = { _sum: { amount: null as number | null } };
+  let activeProposals = 0;
+  let expiringDocs = 0;
+  let activeTeamMembers = 0;
+  let uniqueClients: { contactEmail: string }[] = [];
+  let monthlyRevenueData: { _sum: { amount: number | null } }[] = Array.from({ length: 12 }, () => ({ _sum: { amount: null } }));
+  let eventCategories: { category: string; _count: { id: number } }[] = [];
+  let sponsorsByStage: { status: string; _count: { id: number } }[] = [];
+  let recentEvents: { id: string; name: string; category: string; eventDate: Date | null; status: string; budget: number }[] = [];
+  let recentAuditLogs: { id: string; action: string; entity: string | null; createdAt: Date; details: string | null }[] = [];
+
+  try {
+    [
+      totalRevenue,
+      monthlyRevenue,
+      totalEvents,
+      activeSponsors,
+      pendingBookings,
+      upcomingEvents,
+      partnershipPipeline,
+      outstandingPayments,
+      activeProposals,
+      expiringDocs,
+      activeTeamMembers,
+      uniqueClients,
+      monthlyRevenueData,
+      eventCategories,
+      sponsorsByStage,
+      recentEvents,
+      recentAuditLogs,
+    ] = await Promise.all([
+      db.financialTransaction.aggregate({
+        where: { type: "income" },
+        _sum: { amount: true },
+      }),
+      db.financialTransaction.aggregate({
+        where: {
+          type: "income",
+          transactionDate: { gte: startOfMonth, lte: endOfMonth },
+        },
+        _sum: { amount: true },
+      }),
+      db.event.count(),
+      db.sponsor.count({ where: { status: "active" } }),
+      db.booking.count({ where: { status: "pending" } }),
+      db.event.count({
+        where: {
+          eventDate: { gte: now, lte: thirtyDaysLater },
+          status: { notIn: ["archived", "post_event"] },
+        },
+      }),
+      db.partnership.count({
+        where: { status: { notIn: ["inactive", "expired"] } },
+      }),
+      db.financialTransaction.aggregate({
+        where: { type: "expense", notes: { contains: "pending" } },
+        _sum: { amount: true },
+      }),
+      db.proposal.count({
+        where: { status: { in: ["draft", "sent"] } },
+      }),
+      db.legalDocument.count({
+        where: {
+          expirationDate: { gte: now, lte: thirtyDaysLater },
+          status: { notIn: ["expired", "archived"] },
+        },
+      }),
+      db.staffMember.count({ where: { isActive: true } }),
+      db.booking.findMany({
+        select: { contactEmail: true },
+        distinct: ["contactEmail"],
+      }),
+      Promise.all(
+        Array.from({ length: 12 }, (_, i) => {
+          const monthStart = new Date(currentYear, i, 1);
+          const monthEnd = new Date(currentYear, i + 1, 0, 23, 59, 59);
+          return db.financialTransaction.aggregate({
+            where: {
+              type: "income",
+              transactionDate: { gte: monthStart, lte: monthEnd },
+            },
+            _sum: { amount: true },
+          });
+        })
+      ),
+      db.event.groupBy({
+        by: ["category"],
+        _count: { id: true },
+        orderBy: { _count: { id: "desc" } },
+      }),
+      db.sponsor.groupBy({
+        by: ["status"],
+        _count: { id: true },
+      }),
+      db.event.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          name: true,
+          category: true,
+          eventDate: true,
+          status: true,
+          budget: true,
+        },
+      }),
+      db.auditLog.findMany({
+        orderBy: { createdAt: "desc" },
+        take: 8,
+        select: {
+          id: true,
+          action: true,
+          entity: true,
+          createdAt: true,
+          details: true,
+        },
+      }),
+    ]);
+  } catch (err) {
+    console.error("Dashboard data fetch error:", err);
+  }
 
   const totalRevenueValue = totalRevenue._sum.amount ?? 0;
   const monthlyRevenueValue = monthlyRevenue._sum.amount ?? 0;

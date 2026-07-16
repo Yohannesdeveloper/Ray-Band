@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, X } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,27 @@ const videos = [
 ];
 
 export function GalleryPreview() {
+  const [activeVideo, setActiveVideo] = useState<{ id: string; title: string } | null>(null);
+
+  const close = useCallback(() => setActiveVideo(null), []);
+
+  useEffect(() => {
+    if (activeVideo) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [activeVideo]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [close]);
+
   return (
     <section className="py-24 bg-background">
       <Container>
@@ -48,18 +70,15 @@ export function GalleryPreview() {
           </Link>
         </div>
 
-        {/* Masonry Grid */}
         <StaggerChildren className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[180px] md:auto-rows-[200px]">
           {videos.map((item, i) => (
             <StaggerItem
               key={i}
               className={`${item.aspect} rounded-xl bg-surface border border-border overflow-hidden group cursor-pointer relative`}
             >
-              <a
-                href={`https://www.youtube.com/watch?v=${item.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="absolute inset-0"
+              <button
+                onClick={() => setActiveVideo({ id: item.id, title: item.title })}
+                className="absolute inset-0 w-full h-full text-left"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-surface to-charcoal" />
                 <img
@@ -73,7 +92,7 @@ export function GalleryPreview() {
                     <Play className="w-5 h-5 text-gold ml-0.5" />
                   </div>
                 </div>
-              </a>
+              </button>
             </StaggerItem>
           ))}
         </StaggerChildren>
@@ -86,6 +105,37 @@ export function GalleryPreview() {
           </Button>
         </div>
       </Container>
+
+      {activeVideo && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          onClick={close}
+        >
+          <div
+            className="relative w-full max-w-4xl bg-surface rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-6 pt-4 pb-2">
+              <h3 className="text-warm-white font-semibold truncate pr-4">{activeVideo.title}</h3>
+              <button
+                onClick={close}
+                className="p-1.5 rounded-full hover:bg-charcoal-light transition-colors"
+              >
+                <X className="w-5 h-5 text-warm-white/70" />
+              </button>
+            </div>
+            <div className="aspect-video w-full">
+              <iframe
+                src={`https://www.youtube.com/embed/${activeVideo.id}?autoplay=1&rel=0`}
+                title={activeVideo.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

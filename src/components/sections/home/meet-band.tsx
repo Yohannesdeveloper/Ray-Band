@@ -19,6 +19,7 @@ const bandPhotos = [
   "/Bands/photo_11_2026-07-15_09-36-54.jpg",
   "/Bands/photo_12_2026-07-15_09-36-54.jpg",
   "/Bands/photo_2026-07-15_22-10-31.jpg",
+  "/Bands/photo_2026-07-16_19-50-17.jpg",
 ];
 
 export function MeetBand() {

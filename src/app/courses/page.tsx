@@ -11,6 +11,8 @@ import {
   Guitar, Piano, Mic, Disc3, Music, Headphones,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Music Courses",
   description:

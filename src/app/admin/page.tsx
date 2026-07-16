@@ -26,6 +26,8 @@ import { Badge } from "@/components/ui/badge";
 import { db } from "@/lib/db";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const now = new Date();
   const currentYear = now.getFullYear();

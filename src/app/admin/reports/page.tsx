@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReportsPage() {
   const now = new Date();
   const currentYear = now.getFullYear();

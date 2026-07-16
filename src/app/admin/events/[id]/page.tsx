@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/lib/db";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
+export const dynamic = "force-dynamic";
+
 const STATUS_STYLES: Record<string, string> = {
   draft: "bg-warm-white/10 text-warm-white/60 border-warm-white/10",
   planning: "bg-blue-500/15 text-blue-400 border-blue-500/20",

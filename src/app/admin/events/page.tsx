@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { EventFilters } from "@/components/admin/event-filters";
 
+export const dynamic = "force-dynamic";
+
 const EVENT_STATUSES = [
   "draft", "planning", "proposal", "negotiation", "contract_signed",
   "preparation", "marketing", "production", "live_event", "post_event", "archived",

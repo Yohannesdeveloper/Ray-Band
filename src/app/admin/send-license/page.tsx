@@ -97,7 +97,7 @@ export default function SendLicensePage() {
           </h2>
           <p className="text-warm-white/50 mb-8">
             {files.length} document{files.length !== 1 ? "s" : ""} sent to <strong className="text-warm-white">{form.email}</strong>.
-            They can contact Ray Band for any questions.
+            They can contact Ray Entertainment and Promotion for any questions.
           </p>
           <div className="flex items-center justify-center gap-3">
             <Button
@@ -253,7 +253,7 @@ export default function SendLicensePage() {
           <div className="space-y-4">
             <Input
               label="Subject"
-              placeholder="e.g. Official License Documents - Ray Band Entertainment"
+              placeholder="e.g. Official License Documents - Ray Entertainment and Promotion"
               value={form.subject}
               onChange={(e) => update("subject", e.target.value)}
               required
@@ -264,7 +264,7 @@ export default function SendLicensePage() {
               </label>
               <textarea
                 rows={6}
-                placeholder="Dear [Organization],&#10;&#10;Please find attached the required license documents. This certifies that Ray Band Entertainment is authorized to operate in accordance with local regulations.&#10;&#10;Should you have any questions, please do not hesitate to contact us.&#10;&#10;Best regards,&#10;Ray Band Entertainment"
+                placeholder="Dear [Organization],&#10;&#10;Please find attached the required license documents. This certifies that Ray Entertainment and Promotion is authorized to operate in accordance with local regulations.&#10;&#10;Should you have any questions, please do not hesitate to contact us.&#10;&#10;Best regards,&#10;Ray Entertainment and Promotion"
                 value={form.message}
                 onChange={(e) => update("message", e.target.value)}
                 className="w-full rounded-xl bg-surface-light border border-border px-4 py-3 text-warm-white text-sm placeholder:text-warm-white/30 transition-all focus:outline-none focus:ring-2 focus:ring-gold/50 resize-none"

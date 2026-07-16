@@ -49,9 +49,9 @@ export function Navbar() {
         <Container>
           <nav className="flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group">
-              <img src="/LOGO RAY  BAND.jpg" alt="Ray Band" className="w-14 h-14 rounded-xl object-cover border-2 border-gold/30 group-hover:border-gold/60 transition-all duration-300 group-hover:scale-105 shadow-lg shadow-gold/10" />
+              <img src="/LOGO RAY  BAND.jpg" alt="Ray Entertainment and Promotion" className="w-14 h-14 rounded-xl object-cover border-2 border-gold/30 group-hover:border-gold/60 transition-all duration-300 group-hover:scale-105 shadow-lg shadow-gold/10" />
               <span className="text-2xl font-bold font-[family-name:var(--font-playfair)]">
-                Ray Band
+                Ray Entertainment and Promotion
               </span>
             </Link>
 

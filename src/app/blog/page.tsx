@@ -10,7 +10,7 @@ import { Calendar, User } from "lucide-react";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Music tips, wedding planning advice, event planning guides, and behind-the-scenes stories from Ray Band.",
+    "Music tips, wedding planning advice, event planning guides, and behind-the-scenes stories from Ray Entertainment and Promotion.",
 };
 
 const posts = [

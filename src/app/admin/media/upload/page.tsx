@@ -127,7 +127,7 @@ export default function UploadMediaPage() {
           <div className="space-y-4">
             <Input
               label="Title"
-              placeholder="e.g. Ray Band Logo 2024"
+              placeholder="e.g. Ray Entertainment and Promotion Logo 2024"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required

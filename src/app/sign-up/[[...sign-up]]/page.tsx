@@ -8,9 +8,9 @@ export default function SignUpPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <img src="/LOGO RAY  BAND.jpg" alt="Ray Band" className="w-8 h-8 rounded-lg object-cover" />
+            <img src="/LOGO RAY  BAND.jpg" alt="Ray Entertainment and Promotion" className="w-8 h-8 rounded-lg object-cover" />
             <span className="text-2xl font-bold font-[family-name:var(--font-playfair)] text-warm-white">
-              Ray Band
+              Ray Entertainment and Promotion
             </span>
           </Link>
           <p className="text-warm-white/40 text-sm">Create your account</p>

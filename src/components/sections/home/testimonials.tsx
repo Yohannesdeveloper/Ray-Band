@@ -14,21 +14,21 @@ const testimonials = [
     name: "Abeba & Daniel",
     event: "Wedding",
     rating: 5,
-    text: "Ray Band made our wedding absolutely magical. Every song was perfectly chosen, and the energy they brought had all our guests on the dance floor. Truly unforgettable!",
+    text: "Ray Entertainment and Promotion made our wedding absolutely magical. Every song was perfectly chosen, and the energy they brought had all our guests on the dance floor. Truly unforgettable!",
     image: null,
   },
   {
     name: "Ethiopian Airlines",
     event: "Corporate",
     rating: 5,
-    text: "Professional, punctual, and absolutely phenomenal. Ray Band delivered an outstanding performance at our annual gala. Our international guests were thoroughly impressed.",
+    text: "Professional, punctual, and absolutely phenomenal. Ray Entertainment and Promotion delivered an outstanding performance at our annual gala. Our international guests were thoroughly impressed.",
     image: null,
   },
   {
     name: "The Sheraton Addis",
     event: "Hotel",
     rating: 5,
-    text: "We regularly feature Ray Band at our hotel events. Their versatility and professionalism are unmatched. They elevate every occasion they perform at.",
+    text: "We regularly feature Ray Entertainment and Promotion at our hotel events. Their versatility and professionalism are unmatched. They elevate every occasion they perform at.",
     image: null,
   },
   {
@@ -54,7 +54,7 @@ export function Testimonials() {
             badge="Testimonials"
             title="What Our Clients"
             highlighted="Say"
-            description="Real stories from real clients who experienced the magic of Ray Band."
+            description="Real stories from real clients who experienced the magic of Ray Entertainment and Promotion."
           />
         </FadeUp>
 

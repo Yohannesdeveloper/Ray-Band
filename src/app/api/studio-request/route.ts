@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
           <h1 style="color: #d4a853; margin: 0; font-size: 24px;">New Studio Request</h1>
-          <p style="color: #a0a0a0; margin: 5px 0 0; font-size: 12px;">Ray Band Music Studio</p>
+          <p style="color: #a0a0a0; margin: 5px 0 0; font-size: 12px;">Ray Entertainment and Promotion Music Studio</p>
         </div>
         <div style="background: #f9f9f9; padding: 30px; border: 1px solid #e0e0e0;">
           <h2 style="color: #333; margin-top: 0;">Project Details</h2>
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
           ` : ""}
         </div>
         <div style="background: #1a1a2e; padding: 20px; text-align: center; border-radius: 0 0 10px 10px;">
-          <p style="color: #666; margin: 0; font-size: 11px;">&copy; ${new Date().getFullYear()} Ray Band Entertainment</p>
+          <p style="color: #666; margin: 0; font-size: 11px;">&copy; ${new Date().getFullYear()} Ray Entertainment and Promotion</p>
         </div>
       </div>
     `;
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
           <h1 style="color: #d4a853; margin: 0; font-size: 24px;">Studio Request Received</h1>
-          <p style="color: #a0a0a0; margin: 5px 0 0; font-size: 12px;">Ray Band Music Studio</p>
+          <p style="color: #a0a0a0; margin: 5px 0 0; font-size: 12px;">Ray Entertainment and Promotion Music Studio</p>
         </div>
         <div style="background: #f9f9f9; padding: 30px; border: 1px solid #e0e0e0;">
           <p style="color: #555; line-height: 1.6;">Dear <strong>${fullName}</strong>,</p>
@@ -87,10 +87,10 @@ export async function POST(req: NextRequest) {
             <p style="margin: 4px 0 0; color: #333;"><strong>Project:</strong> ${projectTitle}</p>
           </div>
           <p style="color: #555; line-height: 1.6;">We will get back to you within 24 hours with a detailed proposal.</p>
-          <p style="color: #555; line-height: 1.6;">Best regards,<br/><strong>Ray Band Music Studio Team</strong></p>
+          <p style="color: #555; line-height: 1.6;">Best regards,<br/><strong>Ray Entertainment and Promotion Music Studio Team</strong></p>
         </div>
         <div style="background: #1a1a2e; padding: 20px; text-align: center; border-radius: 0 0 10px 10px;">
-          <p style="color: #666; margin: 0; font-size: 11px;">&copy; ${new Date().getFullYear()} Ray Band Entertainment</p>
+          <p style="color: #666; margin: 0; font-size: 11px;">&copy; ${new Date().getFullYear()} Ray Entertainment and Promotion</p>
           <p style="color: #666; margin: 5px 0 0; font-size: 11px;">Addis Ababa, Ethiopia | info@rayband.com</p>
         </div>
       </div>
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
     })));
 
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || `Ray Band Entertainment <${ADMIN_EMAIL}>`,
+      from: process.env.SMTP_FROM || `Ray Entertainment and Promotion <${ADMIN_EMAIL}>`,
       to: ADMIN_EMAIL,
       subject: `[Studio Request] ${projectTitle} - ${fullName}`,
       html: adminHtml,
@@ -111,7 +111,7 @@ export async function POST(req: NextRequest) {
     });
 
     await transporter.sendMail({
-      from: process.env.SMTP_FROM || `Ray Band Entertainment <${ADMIN_EMAIL}>`,
+      from: process.env.SMTP_FROM || `Ray Entertainment and Promotion <${ADMIN_EMAIL}>`,
       to: email,
       subject: `Studio Request Confirmation - ${projectTitle}`,
       html: clientHtml,

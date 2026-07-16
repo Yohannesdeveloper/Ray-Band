@@ -708,7 +708,7 @@ model Post {
   excerpt        String?
   content        String
   coverImage     String?
-  author         String    @default("Ray Band Team")
+  author         String    @default("Ray Entertainment and Promotion Team")
   category       String
   tags           String    @default("[]")
   published      Boolean   @default(false)

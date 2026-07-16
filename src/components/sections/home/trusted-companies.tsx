@@ -6,8 +6,8 @@ const companies = [
   { name: "AMN Talent Show", logo: "/Companies/amn-removebg-preview.png" },
   { name: "FANA Kelemat", logo: "/Companies/fana-removebg-preview.png" },
   { name: "FANA Holiday Program", logo: "/Companies/fana-removebg-preview.png" },
-  { name: "Ray Band Entertainment", logo: "/LOGO RAY  BAND.jpg" },
-  { name: "EBS", logo: "/Companies/ebs logo.jpeg" },
+  { name: "Ray Entertainment and Promotion", logo: "/LOGO RAY  BAND.jpg" },
+  { name: "EBS", logo: "/Companies/ebs logo.png" },
 ];
 
 export function TrustedCompanies() {

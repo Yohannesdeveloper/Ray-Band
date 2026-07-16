@@ -21,7 +21,7 @@ const faqCategories = [
   {
     category: "Pricing",
     questions: [
-      { q: "How much does it cost to book Ray Band?", a: "Pricing varies based on event type, duration, band size, and location. Contact us for a free quote tailored to your specific needs." },
+      { q: "How much does it cost to book Ray Entertainment and Promotion?", a: "Pricing varies based on event type, duration, band size, and location. Contact us for a free quote tailored to your specific needs." },
       { q: "Do you offer payment plans?", a: "Yes, we offer flexible payment plans. Typically, a 50% deposit secures your date, with the balance due before the event." },
       { q: "Are there any hidden fees?", a: "No hidden fees. Our quotes include all costs. Any additional services like lighting or sound equipment will be clearly itemized." },
     ],
@@ -30,7 +30,7 @@ const faqCategories = [
     category: "Music Courses",
     questions: [
       { q: "Are the courses suitable for beginners?", a: "Yes! Our courses range from beginner to advanced. Each course clearly indicates the difficulty level so you can find the right fit." },
-      { q: "Do I get a certificate?", a: "Yes, upon successful completion of a course, you'll receive a digital certificate of completion from Ray Band Music Academy." },
+      { q: "Do I get a certificate?", a: "Yes, upon successful completion of a course, you'll receive a digital certificate of completion from Ray Entertainment and Promotion Music Academy." },
       { q: "Can I preview a course before buying?", a: "Absolutely! Each course has free preview lessons you can watch before committing to the full course." },
       { q: "Are there live sessions with instructors?", a: "Our premium courses include monthly live Q&A sessions with instructors. Check each course for specific details." },
     ],

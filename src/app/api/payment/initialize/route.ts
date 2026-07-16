@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
       callback_url: `${baseUrl}/api/payment/webhook`,
       return_url: `${baseUrl}/payment/success?tx_ref=${txRef}`,
       customization: {
-        title: "Ray Band",
+        title: "Ray Entertainment and Promotion",
         description: `Payment for ${eventType || "event booking"}`,
       },
     };

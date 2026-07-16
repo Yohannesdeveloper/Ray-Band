@@ -145,9 +145,9 @@ export function Footer() {
               href="/"
               className="flex items-center gap-2.5 mb-4"
             >
-              <img src="/LOGO RAY  BAND.jpg" alt="Ray Band" className="w-10 h-10 rounded-xl object-cover border border-gold/20" />
+              <img src="/LOGO RAY  BAND.jpg" alt="Ray Entertainment and Promotion" className="w-10 h-10 rounded-xl object-cover border border-gold/20" />
               <span className="text-xl font-bold font-[family-name:var(--font-playfair)]">
-                Ray Band
+                Ray Entertainment and Promotion
               </span>
             </Link>
             <p className="text-sm text-warm-white/40 leading-relaxed mb-6">
@@ -201,7 +201,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-warm-white/30">
-            &copy; {new Date().getFullYear()} Ray Band Entertainment. All rights reserved.
+            &copy; {new Date().getFullYear()} Ray Entertainment and Promotion. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
             <span className="text-xs text-warm-white/30">

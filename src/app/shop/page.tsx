@@ -10,16 +10,16 @@ import { ShoppingBag, Star } from "lucide-react";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Official Ray Band merchandise. T-shirts, caps, hoodies, mugs, and more.",
+    "Official Ray Entertainment and Promotion merchandise. T-shirts, caps, hoodies, mugs, and more.",
 };
 
 const products = [
-  { name: "Classic Ray Band Tee", price: 35, category: "Apparel", rating: 4.8, reviews: 124 },
-  { name: "Ray Band Hoodie", price: 65, category: "Apparel", rating: 4.9, reviews: 89 },
+  { name: "Classic Ray Entertainment and Promotion Tee", price: 35, category: "Apparel", rating: 4.8, reviews: 124 },
+  { name: "Ray Entertainment and Promotion Hoodie", price: 65, category: "Apparel", rating: 4.9, reviews: 89 },
   { name: "Gold Logo Cap", price: 25, category: "Accessories", rating: 4.7, reviews: 201 },
-  { name: "Ray Band Mug", price: 15, category: "Accessories", rating: 4.6, reviews: 156 },
+  { name: "Ray Entertainment and Promotion Mug", price: 15, category: "Accessories", rating: 4.6, reviews: 156 },
   { name: "Signed Album", price: 45, category: "Music", rating: 5.0, reviews: 67 },
-  { name: "Ray Band Poster", price: 20, category: "Accessories", rating: 4.5, reviews: 93 },
+  { name: "Ray Entertainment and Promotion Poster", price: 20, category: "Accessories", rating: 4.5, reviews: 93 },
   { name: "Guitar Pick Set", price: 10, category: "Accessories", rating: 4.8, reviews: 234 },
   { name: "Gift Card", price: 50, category: "Gift Cards", rating: 4.9, reviews: 78 },
 ];
@@ -37,7 +37,7 @@ export default function ShopPage() {
                 Official <span className="gradient-text">Merch</span>
               </h1>
               <p className="text-lg text-warm-white/60">
-                Rep your favorite band with official Ray Band merchandise.
+                Rep your favorite band with official Ray Entertainment and Promotion merchandise.
               </p>
             </div>
           </Container>

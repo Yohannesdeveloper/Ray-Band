@@ -41,7 +41,7 @@ export async function sendLicenseEmail({
   const htmlContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: #d4a853; margin: 0; font-size: 24px;">Ray Band Entertainment</h1>
+        <h1 style="color: #d4a853; margin: 0; font-size: 24px;">Ray Entertainment and Promotion</h1>
         <p style="color: #a0a0a0; margin: 5px 0 0; font-size: 12px;">Professional Live Band & Music Academy</p>
       </div>
       <div style="background: #f9f9f9; padding: 30px; border: 1px solid #e0e0e0;">
@@ -54,10 +54,10 @@ export async function sendLicenseEmail({
           <ul style="margin: 0; padding-left: 20px; list-style: none;">${fileListHtml}</ul>
         </div>
         <p style="color: #555; line-height: 1.6;">If you have any questions or need further assistance, please don't hesitate to contact us.</p>
-        <p style="color: #555; line-height: 1.6;">Best regards,<br/><strong>Ray Band Entertainment Team</strong></p>
+        <p style="color: #555; line-height: 1.6;">Best regards,<br/><strong>Ray Entertainment and Promotion Team</strong></p>
       </div>
       <div style="background: #1a1a2e; padding: 20px; text-align: center; border-radius: 0 0 10px 10px;">
-        <p style="color: #666; margin: 0; font-size: 11px;">&copy; ${new Date().getFullYear()} Ray Band Entertainment. All rights reserved.</p>
+        <p style="color: #666; margin: 0; font-size: 11px;">&copy; ${new Date().getFullYear()} Ray Entertainment and Promotion. All rights reserved.</p>
         <p style="color: #666; margin: 5px 0 0; font-size: 11px;">Addis Ababa, Ethiopia | info@rayband.com</p>
       </div>
     </div>

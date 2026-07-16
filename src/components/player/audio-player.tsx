@@ -9,14 +9,14 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 
 const playlist = [
-  { id: 1, title: "Sunset Serenade", artist: "Ray Band", album: "Golden Nights", duration: "4:23", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-  { id: 2, title: "Addis Nights", artist: "Ray Band", album: "Addis After Dark", duration: "5:12", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-  { id: 3, title: "Golden Hour", artist: "Ray Band", album: "Golden Nights", duration: "3:45", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-  { id: 4, title: "Ethiopian Rhapsody", artist: "Ray Band", album: "Unplugged Vol. 1", duration: "6:01", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-  { id: 5, title: "Moonlight Groove", artist: "Ray Band", album: "Acoustic Sessions", duration: "4:56", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-  { id: 6, title: "Love Again", artist: "Ray Band", album: "Love Songs", duration: "3:32", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-  { id: 7, title: "Midnight Jazz", artist: "Ray Band", album: "Golden Nights", duration: "5:45", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-  { id: 8, title: "Morning Light", artist: "Ray Band", album: "Acoustic Sessions", duration: "4:10", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+  { id: 1, title: "Sunset Serenade", artist: "Ray Entertainment and Promotion", album: "Golden Nights", duration: "4:23", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+  { id: 2, title: "Addis Nights", artist: "Ray Entertainment and Promotion", album: "Addis After Dark", duration: "5:12", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+  { id: 3, title: "Golden Hour", artist: "Ray Entertainment and Promotion", album: "Golden Nights", duration: "3:45", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+  { id: 4, title: "Ethiopian Rhapsody", artist: "Ray Entertainment and Promotion", album: "Unplugged Vol. 1", duration: "6:01", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+  { id: 5, title: "Moonlight Groove", artist: "Ray Entertainment and Promotion", album: "Acoustic Sessions", duration: "4:56", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+  { id: 6, title: "Love Again", artist: "Ray Entertainment and Promotion", album: "Love Songs", duration: "3:32", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+  { id: 7, title: "Midnight Jazz", artist: "Ray Entertainment and Promotion", album: "Golden Nights", duration: "5:45", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+  { id: 8, title: "Morning Light", artist: "Ray Entertainment and Promotion", album: "Acoustic Sessions", duration: "4:10", src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
 ];
 
 export function AudioPlayer() {

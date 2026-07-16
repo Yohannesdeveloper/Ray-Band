@@ -124,7 +124,7 @@ const aiTools: AiTool[] = [
     color: "text-pink-400",
     bgColor: "bg-pink-400/10",
     fields: [
-      { name: "headline", label: "Headline", placeholder: "e.g. Ray Band Announces New Year Gala" },
+      { name: "headline", label: "Headline", placeholder: "e.g. Ray Entertainment and Promotion Announces New Year Gala" },
       { name: "eventDate", label: "Event Date", placeholder: "e.g. December 31, 2026" },
       { name: "venue", label: "Venue", placeholder: "e.g. African Union Conference Center" },
       { name: "highlights", label: "Key Highlights", placeholder: "e.g. International artists, VIP access, live broadcast", multiline: true },
@@ -246,7 +246,7 @@ Package Benefits:
 • Exclusive stage naming rights
 • VIP hospitality suite for ${v("sponsorName")} executives
 • Logo placement on banners, backdrops, and digital screens
-• Social media mentions across Ray Band platforms (50K+ followers)
+• Social media mentions across Ray Entertainment and Promotion platforms (50K+ followers)
 • Featured interview in press coverage
 • Complimentary VIP tickets for your team
 • Post-event analytics and impact report

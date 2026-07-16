@@ -19,7 +19,7 @@ import {
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Ray Band — a world-class live band entertainment company and music academy based in Addis Ababa, Ethiopia.",
+    "Learn about Ray Entertainment and Promotion — a world-class live band entertainment company and music academy based in Addis Ababa, Ethiopia.",
 };
 
 const values = [
@@ -32,7 +32,7 @@ const values = [
 const timeline = [
   { year: "2014", title: "The Beginning", description: "Founded by a group of passionate musicians in Addis Ababa." },
   { year: "2016", title: "First Major Corporate Event", description: "Performed at our first large-scale corporate gala." },
-  { year: "2018", title: "Academy Launch", description: "Opened the Ray Band Music Academy to nurture the next generation." },
+  { year: "2018", title: "Academy Launch", description: "Opened the Ray Entertainment and Promotion Music Academy to nurture the next generation." },
   { year: "2020", title: "Going Digital", description: "Launched online courses reaching students worldwide." },
   { year: "2022", title: "International Expansion", description: "Performed at international events across Africa and beyond." },
   { year: "2024", title: "1000+ Clients", description: "Reached the milestone of 1000+ happy clients." },
@@ -47,7 +47,7 @@ export default function AboutPage() {
         <section className="pt-32 pb-16 bg-background">
           <Container>
             <div className="max-w-3xl">
-              <Badge variant="gold" className="mb-6">About Ray Band</Badge>
+              <Badge variant="gold" className="mb-6">About Ray Entertainment and Promotion</Badge>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-[family-name:var(--font-playfair)] leading-tight mb-6">
                 The Story Behind the{" "}
                 <span className="gradient-text">Music</span>

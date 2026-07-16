@@ -26,7 +26,7 @@ const searchData = [
   { type: "page", title: "Testimonials", href: "/testimonials", icon: FileText },
   { type: "page", title: "Contact Us", href: "/contact", icon: FileText },
   { type: "page", title: "FAQ", href: "/faq", icon: HelpCircle },
-  { type: "page", title: "About Ray Band", href: "/about", icon: Music },
+  { type: "page", title: "About Ray Entertainment and Promotion", href: "/about", icon: Music },
 ];
 
 const typeLabels: Record<string, string> = {

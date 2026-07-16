@@ -17,8 +17,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   title: {
-    default: "Ray Band — World-Class Live Band & Entertainment",
-    template: "%s | Ray Band",
+    default: "Ray Entertainment and Promotion — World-Class Live Band & Entertainment",
+    template: "%s | Ray Entertainment and Promotion",
   },
   description:
     "Premium live band entertainment, music academy, and event booking platform. Where music becomes an unforgettable experience.",
@@ -35,8 +35,8 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Ray Band",
-    title: "Ray Band — World-Class Live Band & Entertainment",
+    siteName: "Ray Entertainment and Promotion",
+    title: "Ray Entertainment and Promotion — World-Class Live Band & Entertainment",
     description:
       "Premium live band entertainment, music academy, and event booking platform.",
     images: [
@@ -44,13 +44,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Ray Band Entertainment",
+        alt: "Ray Entertainment and Promotion Entertainment",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ray Band — World-Class Live Band & Entertainment",
+    title: "Ray Entertainment and Promotion — World-Class Live Band & Entertainment",
     description:
       "Premium live band entertainment, music academy, and event booking platform.",
     images: ["/og-image.jpg"],

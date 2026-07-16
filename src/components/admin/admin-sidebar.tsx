@@ -116,13 +116,13 @@ function SidebarLogo({
       >
         <img
           src="/LOGO RAY  BAND.jpg"
-          alt="Ray Band"
+          alt="Ray Entertainment and Promotion"
           className="w-7 h-7 rounded-lg object-cover shrink-0"
         />
         {!collapsed && (
           <div className="flex items-center gap-1 min-w-0">
             <span className="font-bold font-[family-name:var(--font-playfair)] text-gold truncate">
-              Ray Band
+              Ray Entertainment and Promotion
             </span>
             <span className="text-[9px] text-warm-white/30 font-mono bg-surface-light px-1.5 py-0.5 rounded shrink-0">
               ENTERPRISE

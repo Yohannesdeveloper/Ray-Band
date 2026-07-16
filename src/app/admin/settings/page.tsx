@@ -59,7 +59,7 @@ export default function AdminSettingsPage() {
                 <h2 className="text-lg font-bold text-warm-white">General Settings</h2>
                 <Input
                   label="Business Name"
-                  defaultValue="Ray Band Entertainment"
+                  defaultValue="Ray Entertainment and Promotion"
                 />
                 <Input
                   label="Business Email"

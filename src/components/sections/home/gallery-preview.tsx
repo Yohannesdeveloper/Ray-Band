@@ -1,19 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Camera, Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { FadeUp, StaggerChildren, StaggerItem } from "@/components/ui/animations";
 
-const images = [
-  { type: "image", src: "/Bands/Cloth 1 (1).jpg", alt: "Band Cloth 1", aspect: "col-span-2 row-span-2" },
-  { type: "image", src: "/Bands/Cloth 2.jpg", alt: "Band Cloth 2", aspect: "col-span-1 row-span-1" },
-  { type: "image", src: null, alt: "", aspect: "col-span-1 row-span-1" },
-  { type: "image", src: null, alt: "", aspect: "col-span-1 row-span-2" },
-  { type: "image", src: null, alt: "", aspect: "col-span-1 row-span-1" },
-  { type: "image", src: null, alt: "", aspect: "col-span-2 row-span-1" },
+const videos = [
+  { id: "GsvWWqfYU4M", title: "Ray Entertainment and Promotion Performance", aspect: "col-span-2 row-span-2" },
+  { id: "asnw3y0gSlA", title: "Live Session", aspect: "col-span-1 row-span-1" },
+  { id: "aAYYhReLVJM", title: "Ray Entertainment and Promotion Live", aspect: "col-span-1 row-span-1" },
+  { id: "0SddRr2gPxI", title: "Concert Highlights", aspect: "col-span-1 row-span-2" },
+  { id: "yis15gjdgzg", title: "Event Performance", aspect: "col-span-1 row-span-1" },
+  { id: "jBAdj_3O90k", title: "Behind the Scenes", aspect: "col-span-1 row-span-1" },
+  { id: "Bbz3wqSId24", title: "Band Rehearsal", aspect: "col-span-2 row-span-1" },
+  { id: "StRppIvYL5Y", title: "Short Clip", aspect: "col-span-1 row-span-1" },
+  { id: "_jbtpZOogmQ", title: "Short Clip", aspect: "col-span-1 row-span-1" },
+  { id: "lDhYV9rZjxY", title: "Short Clip", aspect: "col-span-1 row-span-1" },
+  { id: "MB7BCNB6NDk", title: "Short Clip", aspect: "col-span-1 row-span-2" },
+  { id: "LlpgwuFPVz4", title: "Short Clip", aspect: "col-span-1 row-span-1" },
+  { id: "3kn1RVHuH6s", title: "Short Clip", aspect: "col-span-1 row-span-1" },
+  { id: "rdDRsHP8c6g", title: "Short Clip", aspect: "col-span-2 row-span-1" },
+  { id: "za793xM6zK0", title: "Short Clip", aspect: "col-span-1 row-span-1" },
+  { id: "ZhikoQaMiPU", title: "Short Clip", aspect: "col-span-1 row-span-1" },
 ];
 
 export function GalleryPreview() {
@@ -40,25 +50,30 @@ export function GalleryPreview() {
 
         {/* Masonry Grid */}
         <StaggerChildren className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[180px] md:auto-rows-[200px]">
-          {images.map((item, i) => (
+          {videos.map((item, i) => (
             <StaggerItem
               key={i}
               className={`${item.aspect} rounded-xl bg-surface border border-border overflow-hidden group cursor-pointer relative`}
             >
-              {item.src ? (
-                <img src={item.src} alt={item.alt} className="absolute inset-0 w-full h-full object-cover" />
-              ) : (
-                <div className="absolute inset-0 bg-gradient-to-br from-charcoal to-surface-lighter" />
-              )}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-gold/5 flex items-center justify-center">
-                {item.type === "video" ? (
+              <a
+                href={`https://www.youtube.com/watch?v=${item.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute inset-0"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-surface to-charcoal" />
+                <img
+                  src={`https://img.youtube.com/vi/${item.id}/hqdefault.jpg`}
+                  alt={item.title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                />
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 flex items-center justify-center">
                   <div className="w-12 h-12 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center">
                     <Play className="w-5 h-5 text-gold ml-0.5" />
                   </div>
-                ) : (
-                  <Camera className="w-6 h-6 text-gold" />
-                )}
-              </div>
+                </div>
+              </a>
             </StaggerItem>
           ))}
         </StaggerChildren>

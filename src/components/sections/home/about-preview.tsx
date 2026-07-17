@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Award, Heart, Music, Sparkles } from "lucide-react";
+import { ArrowRight, Award, Heart, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -16,16 +16,11 @@ export function AboutPreview() {
             {/* Image / Visual */}
             <div className="relative">
               <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-surface border border-border">
-                <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-surface to-charcoal" />
-                <div className="absolute inset-0 opacity-30">
-                  <div className="absolute top-1/4 left-1/4 w-48 h-48 bg-gold/15 rounded-full blur-[80px]" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <Music className="w-16 h-16 text-gold/40 mx-auto mb-4" />
-                    <p className="text-warm-white/20 text-sm">Band Photo</p>
-                  </div>
-                </div>
+                <img
+                  src="/Bands/Cloth 1  (2).jpg"
+                  alt="About Us"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Floating Stats */}

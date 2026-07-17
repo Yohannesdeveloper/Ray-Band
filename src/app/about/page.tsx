@@ -95,6 +95,28 @@ export default function AboutPage() {
           </Container>
         </section>
 
+        {/* Gallery */}
+        <section className="py-24 bg-background">
+          <Container>
+            <SectionHeading
+              badge="Our Look"
+              title="Band"
+              highlighted="Gallery"
+            />
+            <div className="mt-16 grid md:grid-cols-2 gap-6">
+              <div className="md:col-span-2 rounded-2xl overflow-hidden border border-border">
+                <img src="/Bands/Cloth 1  (3).jpg" alt="Band photo 3" className="w-full h-full object-contain hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="aspect-square rounded-2xl overflow-hidden border border-border">
+                <img src="/Bands/Cloth 1  (1).jpg" alt="Band photo 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+              <div className="aspect-square rounded-2xl overflow-hidden border border-border">
+                <img src="/Bands/Cloth 1  (2).jpg" alt="Band photo 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+              </div>
+            </div>
+          </Container>
+        </section>
+
         {/* Values */}
         <section className="py-24 bg-background">
           <Container>

@@ -25,8 +25,6 @@ const musicians = [
   { name: "Liya Kebede", role: "Vocals & Songwriting", bio: "Liya's poetic lyrics and emotive voice bring storytelling and depth to the band's original compositions.", instruments: ["Vocals", "Songwriting"], experience: "6+ years", education: "Royal Academy of Music", image: "/Bands/photo_12_2026-07-15_09-36-54.jpg" },
   { name: "Kidus Tadesse", role: "Bass & Arrangement", bio: "Kidus combines deep bass grooves with skilled musical arrangement to shape the band's dynamic sound.", instruments: ["Electric Bass", "Arrangement"], experience: "8+ years", education: "MI College of Music", image: "/Bands/photo_2026-07-15_22-10-31.jpg" },
   { name: "Naomi Fekadu", role: "Keys & Backing Vocals", bio: "Naomi's keyboard skills and harmonious backing vocals glue the band's sound together.", instruments: ["Keyboard", "Vocals"], experience: "5+ years", education: "Vienna Conservatory", image: "/Bands/photo_2026-07-16_19-50-17.jpg" },
-  { name: "Elias Worku", role: "Percussion & Rhythm", bio: "Elias's diverse percussion techniques from traditional Ethiopian instruments add an authentic cultural dimension.", instruments: ["Kebero", "Percussion"], experience: "12+ years", education: "Addis Ababa University", image: "/Bands/Cloth 1  (2).jpg" },
-  { name: "Meron Alemayehu", role: "Violin & Music Direction", bio: "Meron's classical training and leadership as music director ensure every performance is flawlessly executed.", instruments: ["Violin", "Music Direction"], experience: "13+ years", education: "Vienna Conservatory", image: "/Bands/Cloth 1  (3).jpg" },
 ];
 
 export default function BandPage() {

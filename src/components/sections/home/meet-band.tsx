@@ -20,6 +20,7 @@ const bandPhotos = [
   "/Bands/photo_12_2026-07-15_09-36-54.jpg",
   "/Bands/photo_2026-07-15_22-10-31.jpg",
   "/Bands/photo_2026-07-16_19-50-17.jpg",
+  "/Bands/photo_2026-07-25_10-00-10.jpg",
 ];
 
 export function MeetBand() {
@@ -46,8 +47,8 @@ export function MeetBand() {
       </Container>
 
       {/* Marquee - Right to Left */}
-      <div className="relative">
-        <div className="flex w-max animate-marquee-right-to-left">
+      <div className="relative w-full overflow-hidden">
+        <div className="flex flex-nowrap w-max animate-marquee-right-to-left">
           {[...bandPhotos, ...bandPhotos].map((src, i) => (
             <div key={i} className="flex-shrink-0 w-48 h-64 mx-2 rounded-xl overflow-hidden group">
               <img

@@ -17,7 +17,7 @@ export function AboutPreview() {
             <div className="relative">
               <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-surface border border-border">
                 <img
-                  src="/Bands/Cloth 1  (2).jpg"
+                  src="/Bands/Nati about us.jpg"
                   alt="About Us"
                   className="w-full h-full object-cover"
                 />
